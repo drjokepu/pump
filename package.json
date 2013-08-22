@@ -1,0 +1,30 @@
+{
+	"name": "pump",
+	"version": "0.0.1",
+	"author": "Tamas Czinege <tomi.czinege@gmail.com>",
+	"description": "",
+	"contributors": [],
+	"homepage": "https://github.com/drjokepu/pump",
+	"bugs": "https://github.com/drjokepu/pump/issues",
+	"license": "MIT",
+	"repository":
+	{
+		"type": "git",
+		"url": "git://github.com/drjokepu/pump.git"
+	},
+	"keywords":
+	[
+	],
+	"main": "./pump.js",
+	"scripts":
+	{
+		"test": "mocha"
+	},
+	"dependencies":
+	{
+		"commander": "*"
+	},
+	"devDependencies":
+	{
+	}
+}
