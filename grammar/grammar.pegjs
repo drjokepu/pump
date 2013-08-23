@@ -1,3 +1,10 @@
+{
+	function Identifier(str)
+	{
+		this.value = str;
+	}
+}
+
 
 start =
 	exp:list_items_with_whitespace? whitespace { return exp; }
@@ -36,7 +43,7 @@ string_char_escaped
 	/ "\\\"" { return "\""; }
 
 identifier
-	= head:[a-zA-Z_$] tail:[a-zA-Z0-9_$]* { return head + tail.join(''); }
+	= head:[a-zA-Z_$] tail:[a-zA-Z0-9_$]* { return new Identifier(head + tail.join('')); }
 
 operator
 	= '+'

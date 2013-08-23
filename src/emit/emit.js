@@ -3,7 +3,9 @@ var tools = require('./tools.js')
 var transformers =
 [
 	require('./number.js'),
-	require('./arithmetic.js')
+	require('./string.js'),
+	require('./identifier.js'),
+	require('./arithmetic.js'),
 ];
 
 function emit(ast)

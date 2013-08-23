@@ -23,6 +23,8 @@
 	"dependencies":
 	{
 		"commander": "*",
+		"grunt-cli": "*",
+		"grunt-peg": "*",
 		"q": "*",
 		"underscore": "*"
 	},
