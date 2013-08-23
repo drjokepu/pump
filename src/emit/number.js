@@ -9,5 +9,6 @@ module.exports =
 	emit: function(ast)
 	{
 		return ast;
-	}
+	},
+	requiresSemicolon: true
 };

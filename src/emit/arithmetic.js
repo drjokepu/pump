@@ -26,5 +26,6 @@ module.exports =
 	{
 		var operands = _.map(_.rest(ast), emit);
 		return '(' + operands.join(ast[0]) + ')';
-	}
+	},
+	requiresSemicolon: true
 };

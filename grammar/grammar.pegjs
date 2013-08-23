@@ -3,6 +3,12 @@
 	{
 		this.value = str;
 	}
+
+	Identifier.prototype.value = '';
+	Identifier.prototype.toString = function()
+	{
+		return this.value;
+	};
 }
 
 
@@ -18,7 +24,7 @@ s_expression
 
 atom
 	= literal
-	/ operator
+	/ op:operator { return new Identifier(op); }
 	/ identifier
 
 literal

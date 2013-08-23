@@ -42,12 +42,7 @@ function parseAst(filePath)
 
 function compileAst(ast)
 {
-	var output = '';
-	for (var i = 0; i < ast.length; i++)
-	{
-		output = output + emit(ast[i]);
-	}
-	return output;
+	return emit.block(ast);
 }
 
 module.exports =

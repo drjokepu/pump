@@ -9,7 +9,8 @@ module.exports =
 	emit: function(ast)
 	{
 		return "\"" + escape(ast) + "\"";
-	}
+	},
+	requiresSemicolon: true
 };
 
 function escape(str)
