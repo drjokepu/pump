@@ -7,7 +7,7 @@ var transformers =
 	require('./identifier.js'),
 	require('./arithmetic.js'),
 	require('./function.js'),
-	require('./form.js'),
+	require('./refinement.js'),
 	require('./list.js')
 ];
 

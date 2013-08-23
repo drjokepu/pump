@@ -7,15 +7,20 @@ process.nextTick(function()
 	emit = require('./emit.js');
 });
 
+var operators = ['+', '-', '*', '/'];
+
 module.exports =
 {
 	test: function(ast)
 	{
-		return t.type(ast) === 'Array';
+		return t.type(ast) === 'Array' && ast.length > 0;
 	},
 	emit: function(ast)
 	{
-		return _.map(ast, emit);
+		// for the time being, we assume that everything is a function call
+		var name = emit(ast[0]);
+		var operands = _.map(_.rest(ast), emit);
+		return name + '(' + operands.join(',') + ')';
 	},
 	requiresSemicolon: true
-}
+};
