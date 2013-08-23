@@ -22,7 +22,9 @@
 	},
 	"dependencies":
 	{
-		"commander": "*"
+		"commander": "*",
+		"q": "*",
+		"underscore": "*"
 	},
 	"devDependencies":
 	{

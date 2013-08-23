@@ -1,6 +1,6 @@
 
 start =
-	exp:s_expression? whitespace { return exp; }
+	exp:list_items_with_whitespace? whitespace { return exp; }
 
 whitespace
 	= [ \n]*
@@ -11,6 +11,7 @@ s_expression
 
 atom
 	= literal
+	/ operator
 	/ identifier
 
 literal
@@ -36,6 +37,12 @@ string_char_escaped
 
 identifier
 	= head:[a-zA-Z_$] tail:[a-zA-Z0-9_$]* { return head + tail.join(''); }
+
+operator
+	= '+'
+	/ '-'
+	/ '*'
+	/ '/'
 
 list
 	= "(" list:list_items_with_whitespace whitespace ")" { return list; }
