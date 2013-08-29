@@ -8,6 +8,7 @@ var transformers =
 	require('./arithmetic.js'),
 	require('./function.js'),
 	require('./refinement.js'),
+	require('./if.js'),
 	require('./list.js')
 ];
 
@@ -20,27 +21,34 @@ function findTransformer(ast)
 			return transformers[i];
 		}
 	}
-	throw new Error('Unknown structure: ' + ast);
-}
 
-function option(opt, name)
-{
-	return tools.present(opt) ? opt[name] : null;
+	if (ast.src)
+	{
+		throw new Error('Unknown structure: \n' + ast.src);
+	}
+	else
+	{
+		throw new Error('Unknown structure (no source): \n' + JSON.stringify(ast, null, 4));
+	}
 }
 
 function emit(ast, opt, out)
 {
 	var transformer = findTransformer(ast);
-	var emitReturn = option(opt, 'return') === true;
-	var output = transformer.emit(ast, emitReturn);
+	var emitReturn = tools.option(opt, 'return') === true;
+	var output = transformer.emit(ast, opt);
 
 	if (emitReturn && transformer.canEmitReturn !== true)
 	{
 		output = 'return ' + output;
-		if (transformer.requiresSemicolon === true)
+		if (requiresSemicolon(transformer.requiresSemicolon, opt))
 		{
 			output += ';';
 		}
+	}
+	else if (tools.option(opt, 'semicolon') && !refusesSemicolon(transformer.refusesSemicolon, opt))
+	{
+		output += ';';
 	}
 
 	if (tools.present(out))
@@ -52,15 +60,16 @@ function emit(ast, opt, out)
 
 emit.block = function(ast)
 {
+	var opt = { allowStatement: true };
 	if (tools.type(ast) === 'Array')
 	{
 		var output = '';
 		for (var i = 0; i < ast.length; i++)
 		{
 			var out = {};
-			var itemOutput = emit(ast[i], null, out);
+			var itemOutput = emit(ast[i], opt, out);
 			output += itemOutput;
-			if (out.transformer.requiresSemicolon === true)
+			if (requiresSemicolon(out.transformer.requiresSemicolon, opt))
 			{
 				output += ';';
 			} 
@@ -69,8 +78,34 @@ emit.block = function(ast)
 	}
 	else
 	{
-		return emit(ast);
+		return emit(ast, opt);
 	}
+}
+
+function requiresSemicolon(req, opt)
+{
+	if (req === undefined || req === null || req === false) return false;
+	if (req === true) return true;
+	if (req.constructor.name === 'Function') return req(opt) === true;
+	return false;
+}
+
+function refusesSemicolon(req, opt)
+{
+	if (req === undefined || req === null || req === true) return false;
+	if (req === false) return true;
+	if (req.constructor.name === 'Function') return req(opt) === false;
+	return false;
+}
+
+emit.statement = function(ast)
+{
+	return emit(ast, { allowStatement: true });
+}
+
+emit.expression = function(ast)
+{
+	return emit(ast, { allowStatement: false });
 }
 
 module.exports = emit;

@@ -11,7 +11,6 @@
 	};
 }
 
-
 start =
 	exp:list_items_with_whitespace? whitespace { return exp; }
 
@@ -24,7 +23,7 @@ s_expression
 
 atom
 	= literal
-	/ op:operator { return new Identifier(op); }
+	/ op:operator { new Identifier(op); }
 	/ identifier
 
 literal

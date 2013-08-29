@@ -67,7 +67,7 @@ module.exports =
 		var output = 'function ';
 		if (name !== null) output = output + emit(name);
 		output = output + '(' + _.pluck(args, 'value').join(',') +
-			'){' + emit(body, { "return": true }) + '}';
+			'){' + emit(body, { "return": true, allowStatement: true }) + '}';
 		return output;
 	},
 	requiresSemicolon: false

@@ -18,10 +18,16 @@ var isFormWithName = function(val, name)
 	return isForm(val) && val[0].value === name;
 };
 
+var option = function(opt, name)
+{
+	return present(opt) ? opt[name] : null;
+}
+
 module.exports =
 {
 	present: present,
 	type: type,
 	isForm: isForm,
-	isFormWithName: isFormWithName
+	isFormWithName: isFormWithName,
+	option: option
 }
