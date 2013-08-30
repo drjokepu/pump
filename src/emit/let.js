@@ -50,11 +50,12 @@ module.exports =
 		var bodyString = emit(ast[ast.length - 1],
 		{
 			allowStatement: true,
-			'return': false,
+			'return': options['return'],
 			semicolon: true
 		}, null, indent);
 
-		return 'var ' + declarationString + ';\n' + t.indent(indent) + bodyString;
+		return 'var ' + declarationString + ';\n' + bodyString;
 	},
-	requiresSemicolon: true
+	requiresSemicolon: true,
+	handlesReturn: true
 };

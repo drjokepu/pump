@@ -11,6 +11,7 @@ var transformers =
 	require('./if.js'),
 	require('./let.js'),
 	require('./block.js'),
+	require('./undefined.js'),
 	require('./list.js')
 ];
 

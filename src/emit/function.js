@@ -1,10 +1,11 @@
-var emit = null;
+var emit = null, undef = null;
 var t = require('./tools.js');
 var _ = require('underscore');
 
 process.nextTick(function()
 {
 	emit = require('./emit.js');
+	undef = require('./undefined.js');
 });
 
 module.exports =
@@ -63,8 +64,9 @@ module.exports =
 		if (name !== null) output = output + emit(name);
 		output +=
 			'(' + _.pluck(args, 'value').join(',') + ')\n' + t.indent(indent) + '{\n' +
-			emit(body, { "return": true, allowStatement: true }, null, indent + 1) +
-			'\n' +
+			(undef.test(body) ?
+				'' :
+				emit(body, { "return": true, allowStatement: true }, null, indent + 1) + '\n') +
 			t.indent(indent) +
 			'}';
 		return output;

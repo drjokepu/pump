@@ -23,7 +23,7 @@ s_expression
 
 atom
 	= literal
-	/ op:operator { new Identifier(op); }
+	/ op:operator { return new Identifier(op); }
 	/ identifier
 
 literal
