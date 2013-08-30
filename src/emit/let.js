@@ -55,5 +55,6 @@ module.exports =
 		}, null, indent);
 
 		return 'var ' + declarationString + ';\n' + t.indent(indent) + bodyString;
-	}
+	},
+	requiresSemicolon: true
 };

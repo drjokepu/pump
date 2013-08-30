@@ -10,6 +10,7 @@ var transformers =
 	require('./refinement.js'),
 	require('./if.js'),
 	require('./let.js'),
+	require('./block.js'),
 	require('./list.js')
 ];
 
@@ -34,7 +35,7 @@ function emit(ast, opt, out, indent)
 	var emitReturn = tools.option(opt, 'return') === true;
 	var output = transformer.emit(ast, opt, indent);
 
-	if (emitReturn && transformer.canEmitReturn !== true)
+	if (emitReturn && transformer.canEmitReturn !== true  && !transformer.handlesReturn)
 	{
 		output = 'return ' + output;
 		if (requiresSemicolon(transformer.requiresSemicolon, opt))
@@ -71,7 +72,11 @@ emit.block = function(ast, indent)
 			if (requiresSemicolon(out.transformer.requiresSemicolon, opt))
 			{
 				output += ';';
-			} 
+			}
+			if (i + 1 < ast.length)
+			{
+				output += '\n';
+			}
 		}
 		return output;
 	}
