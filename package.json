@@ -26,6 +26,7 @@
 		"grunt-cli": "*",
 		"grunt-peg": "*",
 		"q": "*",
+		"uglify-js": "*",
 		"underscore": "*"
 	},
 	"devDependencies":

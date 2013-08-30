@@ -22,21 +22,16 @@ function findTransformer(ast)
 		}
 	}
 
-	if (ast.src)
-	{
-		throw new Error('Unknown structure: \n' + ast.src);
-	}
-	else
-	{
-		throw new Error('Unknown structure (no source): \n' + JSON.stringify(ast, null, 4));
-	}
+	throw new Error('Unknown structure: \n' + JSON.stringify(ast, null, 4));
 }
 
-function emit(ast, opt, out)
+function emit(ast, opt, out, indent)
 {
+	if (!tools.present(indent)) indent = 0;
+
 	var transformer = findTransformer(ast);
 	var emitReturn = tools.option(opt, 'return') === true;
-	var output = transformer.emit(ast, opt);
+	var output = transformer.emit(ast, opt, indent);
 
 	if (emitReturn && transformer.canEmitReturn !== true)
 	{
@@ -55,11 +50,14 @@ function emit(ast, opt, out)
 	{
 		out.transformer = transformer;
 	}
-	return output;
+
+	return tools.indent(indent) + output;
 }
 
-emit.block = function(ast)
+emit.block = function(ast, indent)
 {
+	if (!tools.present(indent)) indent = 0;
+
 	var opt = { allowStatement: true };
 	if (tools.type(ast) === 'Array')
 	{
@@ -67,7 +65,7 @@ emit.block = function(ast)
 		for (var i = 0; i < ast.length; i++)
 		{
 			var out = {};
-			var itemOutput = emit(ast[i], opt, out);
+			var itemOutput = emit(ast[i], opt, out, indent);
 			output += itemOutput;
 			if (requiresSemicolon(out.transformer.requiresSemicolon, opt))
 			{
@@ -78,7 +76,7 @@ emit.block = function(ast)
 	}
 	else
 	{
-		return emit(ast, opt);
+		return emit(ast, opt, indent);
 	}
 }
 

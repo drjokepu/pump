@@ -23,11 +23,18 @@ var option = function(opt, name)
 	return present(opt) ? opt[name] : null;
 }
 
+var indent = function(level)
+{
+	if (!present(level) || level === 0) return '';
+	return new Array(level + 1).join('    ');
+}
+
 module.exports =
 {
 	present: present,
 	type: type,
 	isForm: isForm,
 	isFormWithName: isFormWithName,
-	option: option
+	option: option,
+	indent: indent
 }

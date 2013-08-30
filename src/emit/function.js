@@ -13,7 +13,7 @@ module.exports =
 	{
 		return t.isFormWithName(ast, 'fn');
 	},
-	emit: function(ast)
+	emit: function(ast, opt, indent)
 	{
 		if (ast.length < 3)
 		{
@@ -44,11 +44,6 @@ module.exports =
 			}
 		}
 
-		if (t.type(ast[ast.length === 3 ? 2 : 3]) !== 'Array')
-		{
-			throw new Error('Function body must be a list.');
-		}
-
 		var tail = _.rest(ast);
 		var name = null, args = null, body = null;
 
@@ -66,8 +61,12 @@ module.exports =
 
 		var output = 'function ';
 		if (name !== null) output = output + emit(name);
-		output = output + '(' + _.pluck(args, 'value').join(',') +
-			'){' + emit(body, { "return": true, allowStatement: true }) + '}';
+		output +=
+			'(' + _.pluck(args, 'value').join(',') + ') {\n' +
+			emit(body, { "return": true, allowStatement: true }, null, indent + 1) +
+			'\n' +
+			t.indent(indent) +
+			'}';
 		return output;
 	},
 	requiresSemicolon: false
