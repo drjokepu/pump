@@ -15,7 +15,7 @@ start =
 	exp:list_items_with_whitespace? whitespace { return exp; }
 
 whitespace
-	= [ \n]*
+	= [ \n\t]*
 
 s_expression
 	= atom

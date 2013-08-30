@@ -62,7 +62,7 @@ module.exports =
 		var output = 'function ';
 		if (name !== null) output = output + emit(name);
 		output +=
-			'(' + _.pluck(args, 'value').join(',') + ') {\n' +
+			'(' + _.pluck(args, 'value').join(',') + ')\n' + t.indent(indent) + '{\n' +
 			emit(body, { "return": true, allowStatement: true }, null, indent + 1) +
 			'\n' +
 			t.indent(indent) +

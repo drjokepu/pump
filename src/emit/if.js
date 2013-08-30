@@ -13,7 +13,7 @@ module.exports =
 	{
 		return t.isFormWithName(ast, 'if');
 	},
-	emit: function(ast, options, emit)
+	emit: function(ast, options, indent)
 	{
 		if (ast.length < 3)
 		{
@@ -27,11 +27,11 @@ module.exports =
 
 		if (options.allowStatement === true)
 		{
-			return emitStatement(ast)
+			return emitStatement(ast, indent)
 		}
 		else
 		{
-			return emitExpression(ast);
+			return emitExpression(ast, indent);
 		}
 		return output;
 	},
@@ -53,7 +53,8 @@ function emitStatement(ast, indent)
 
 	if (ast.length === 3)
 	{
-		return 'if(' + condition + '){' + trueBranch + '}';
+		return 'if (' + condition + ')\n' + t.indent(indent) + '{\n' +
+			trueBranch + '\n' + t.indent(indent) + '}';
 	}
 	else
 	{
@@ -62,8 +63,11 @@ function emitStatement(ast, indent)
 			allowStatement: true,
 			'return': false,
 			semicolon: true
-		}, indent + 1);
-		return 'if(' + condition + '){' + trueBranch + '}else{' + falseBranch + '}';
+		}, null, indent + 1);
+		return 'if (' + condition + ')\n' + t.indent(indent) + '{\n' + trueBranch + '\n' +
+			t.indent(indent) + '}\n' +
+			t.indent(indent) + 'else\n' + t.indent(indent) + '{\n' +
+			falseBranch + '\n' + t.indent(indent) + '}';
 	}
 }
 
@@ -72,23 +76,23 @@ function emitExpression(ast, indent)
 	var condition = emit.expression(ast[1]);
 	var trueBranch = emit(ast[2],
 	{
-		allowStatement: true,
+		allowStatement: false,
 		'return': false,
-		semicolon: true
+		semicolon: false
 	}, indent + 1);
 
 	if (ast.length === 3)
 	{
-		return '(' + condition + ')?(' + trueBranch + '):undefined';
+		return '(' + condition + ') ? (' + trueBranch + ') : undefined';
 	}
 	else
 	{
 		var falseBranch = emit(ast[3],
 		{
-			allowStatement: true,
+			allowStatement: false,
 			'return': false,
-			semicolon: true
+			semicolon: false
 		}, indent + 1);
-		return '(' + condition + ')?(' + trueBranch + '):(' + falseBranch + ')';
+		return '(' + condition + ') ? (' + trueBranch + ') : (' + falseBranch + ')';
 	}
 }
