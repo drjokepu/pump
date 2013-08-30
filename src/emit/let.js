@@ -1,10 +1,11 @@
-var emit = null;
+var emit = null, undef = null;
 var t = require('./tools.js');
 var _ = require('underscore');
 
 process.nextTick(function()
 {
 	emit = require('./emit.js');
+	undef = require('./undefined.js');
 });
 
 module.exports =
@@ -44,17 +45,21 @@ module.exports =
 				var value = emit.expression(declarationAst[1]);
 				declarations.push(name + ' = ' + value);
 			}
+			else
+			{
+				throw new Error('Declaration must be an identifier or an identifier-value pair.');
+			}
 		}
 
 		var declarationString = declarations.join(', ');
-		var bodyString = emit(ast[ast.length - 1],
+		var bodyString =  undef.test(ast[ast.length - 1]) ? '' : ';\n' + emit(ast[ast.length - 1],
 		{
 			allowStatement: true,
 			'return': options['return'],
 			semicolon: false
 		}, null, indent);
 
-		return 'var ' + declarationString + ';\n' + bodyString;
+		return 'var ' + declarationString + bodyString;
 	},
 	requiresSemicolon: true,
 	handlesReturn: true

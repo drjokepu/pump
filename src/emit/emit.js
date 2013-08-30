@@ -10,6 +10,7 @@ var transformers =
 	require('./refinement.js'),
 	require('./if.js'),
 	require('./let.js'),
+	require('./set.js'),
 	require('./block.js'),
 	require('./undefined.js'),
 	require('./list.js')
