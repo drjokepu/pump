@@ -51,7 +51,7 @@ module.exports =
 		{
 			allowStatement: true,
 			'return': options['return'],
-			semicolon: true
+			semicolon: false
 		}, null, indent);
 
 		return 'var ' + declarationString + ';\n' + bodyString;

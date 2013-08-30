@@ -25,9 +25,14 @@
 		"commander": "*",
 		"grunt-cli": "*",
 		"grunt-peg": "*",
+		"mktemp": "*",
 		"q": "*",
 		"uglify-js": "*",
 		"underscore": "*"
+	},
+	"optionalDependencies":
+	{
+		"closurecompiler": "*"
 	},
 	"devDependencies":
 	{
