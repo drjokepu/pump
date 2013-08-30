@@ -9,6 +9,7 @@ var transformers =
 	require('./function.js'),
 	require('./refinement.js'),
 	require('./if.js'),
+	require('./let.js'),
 	require('./list.js')
 ];
 
